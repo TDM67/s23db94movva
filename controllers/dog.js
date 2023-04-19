@@ -97,3 +97,64 @@ exports.dog_view_all_Page = async function(req, res) {
     }
     } 
 
+    exports.dog_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await dog.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    }
+
+    exports.dog_view_one_Page = async function(req, res) {
+        console.log("single view for id " + req.query.id)
+        try{
+        result = await dog.findById( req.query.id)
+        res.render('dogdetail',
+        { title: 'dog Detail', toShow: result });
+        }
+        catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+        }
+        };
+
+        exports.dog_create_Page = function(req, res) {
+            console.log("create view")
+            try{
+            res.render('dogcreate', { title: 'dog Create'});
+            }
+            catch(err){
+            res.status(500)
+            res.send(`{'error': '${err}'}`);
+            }
+            };
+
+            exports.dog_update_Page = async function(req, res) {
+                console.log("update view for item "+req.query.id)
+                try{
+                let result = await dog.findById(req.query.id)
+                res.render('dogupdate', { title: 'dog Update', toShow: result });
+                }
+                catch(err){
+                res.status(500)
+                res.send(`{'error': '${err}'}`);
+                }
+                };
+
+                exports.dog_delete_Page = async function(req, res) {
+                    console.log("Delete view for id " + req.query.id)
+                    try{
+                    result = await dog.findById(req.query.id)
+                    res.render('dogdelete', { title: 'dog Delete', toShow:
+                    result });
+                    }
+                    catch(err){
+                    res.status(500)
+                    res.send(`{'error': '${err}'}`);
+                    }
+                    };
+
