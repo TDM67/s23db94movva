@@ -1,16 +1,25 @@
 extends layout
+
 block content
-    div(class="container-fluid")
-        h1= title
-    - let items = results    
-        div(class="row")
-            each form,index in results
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${index})`) #{form.dog_color}              
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${index})`) #{form.dog_breed}                
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${index})`) #{form.dog_price}
-                hr
-    script.
-        function buy(itemNo)
-        {
-            alert(`You purchased Item ${itemNo+1}`)
-        }
+  h1= title
+  //- - let items = ['dog_type','quantity','cost']
+  - let items = results;
+  - let o;
+  script.
+    function buy(x){
+      alert('purchased item ' + x)
+   } 
+  div(class='container-fluid')
+    div(class='row m-1')
+    div(class="row row-cols-1 row-cols-sm-4 g-6")
+      each item,index in items
+        - let destination = `dispatch(\"/dog/update?id=${item._id}\")` 
+      
+        div(class="dogd text-white bg-dark mb-3" class='col' class='dogd' class='dogd-body' class='dogd-text' onclick='buy('+index+')') Item #{item.dog_color}(#{item.dog_breed})is #{item.dog_price} 
+          <br>
+          button.btn( class="btn-success ml-1", onclick= destination) Update
+
+  script.
+    function dispatch(path){
+      window.location.href=path
+    }
